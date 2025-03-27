@@ -6,8 +6,8 @@
 - [Tailwind](https://tailwindcss.com/) for building great looking accessible UI
 - [Clerk](https://clerk.com/) for authentication
 
-## This Is my First SaaS App
+## Thrice Productions 2025!
 
-### Thrice Productions 2025 !
+### Please feel free to share suggestions with me at togarahess@gmail.com !
 
 
