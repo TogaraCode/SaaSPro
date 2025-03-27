@@ -11,12 +11,20 @@ import Link from "next/link";
 import { SignUpButton } from "@clerk/nextjs";
 import { SignInButton } from "@clerk/nextjs";
 import { UserButton } from "@clerk/nextjs";
+import Image from 'next/image';
+import logoNav from '/public/logoNav.png'
+
 
 export default function Home() {
   return (
     <>
       <header className="sticky top-0 z-10 bg-background p-4 border-b-2 border-slate-200 dark:border-slate-800 flex flex-row justify-between items-center">
-        Thrice Logo Button
+      <Image
+          src={logoNav}
+          alt="Logo Left"
+          className="object-contain h-full justify-start"
+         
+        />
         <UserButton />
       </header>
       <main className="p-8 flex flex-col gap-8">
@@ -37,7 +45,7 @@ export default function Home() {
 function SignInForm() {
   return (
     <div className="flex flex-col gap-8 w-96 mx-auto">
-      <p>Log in to see the numbers</p>
+      <p>Log in and catch a Fire</p>
       <SignInButton mode="modal">
         <button className="bg-foreground text-background px-4 py-2 rounded-md">
           Sign in
