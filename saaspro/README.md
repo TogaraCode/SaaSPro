@@ -6,7 +6,7 @@
 - [Tailwind](https://tailwindcss.com/) for building great looking accessible UI
 - [Clerk](https://clerk.com/) for authentication
 
-## Thrice Productions 2025!
+## Togara Thrice Hess Productions 2025!
 
 ### Please feel free to share suggestions with me at togarahess@gmail.com !
 
