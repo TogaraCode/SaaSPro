@@ -22,6 +22,8 @@ export default function Home() {
       <Image
           src={logoNav}
           alt="Logo Left"
+          width={30}
+          height={30}
           className="object-contain h-full justify-start"
          
         />
@@ -29,8 +31,9 @@ export default function Home() {
       </header>
       <main className="p-8 flex flex-col gap-8">
         <h1 className="text-4xl font-bold text-center">
-          Togara Codes (Thrice Logo)
+          Togara Codes    
         </h1>
+       
         <Authenticated>
           <Content />
         </Authenticated>
