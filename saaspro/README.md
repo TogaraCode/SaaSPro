@@ -1,4 +1,4 @@
-# Welcome to my Convex + Next.js + Clerk app
+# Welcome to my SaaS app!
 
 - Convex as the backend (database, server logic)
 - [React](https://react.dev/) as the frontend (web page interactivity)
