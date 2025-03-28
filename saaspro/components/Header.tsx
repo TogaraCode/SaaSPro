@@ -15,7 +15,7 @@ function Header() {
         <UserButton />
     </SignedIn>
     <SignedOut>
-        <SignInButton>
+        <SignInButton mode="modal">
             <Button>Login</Button>
         </SignInButton>
     </SignedOut>
