@@ -37,6 +37,7 @@ export default function RootLayout({
         <ClerkProvider dynamic>
           <ConvexClientProvider>
             <Header />
+            
             <main>
             {children}
             </main>
