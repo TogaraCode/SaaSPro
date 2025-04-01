@@ -1,4 +1,4 @@
-# Welcome to my SaaS app!
+# Welcome to my first SaaS app!
 
 - Convex as the backend (database, server logic)
 - [React](https://react.dev/) as the frontend (web page interactivity)
