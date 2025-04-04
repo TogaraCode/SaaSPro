@@ -99,11 +99,28 @@ export default function Home() {
       <p className="max-w-[700px] text-gray-500 md:text-xl dark:text-gray-400">
         Choose the plan that works best for your needs.
       </p>
-
     </div>
-
+  </div>
+<div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12 max-w-5xl mx-auto">
+{/* Free Tier */}
+<div className="flex flex-col p-6 bg-white border-gray-200 rounded-lg shadow-sm dark:border-gray-800 dark:bg-gray-950">
+  <div className="space-y-2">
+    <h3 className="text-2xl font-bold">Free</h3>
+    <p className="text-gray-500 dark:text-gray400">
+      Free tier for all to try!
+    </p>
+  </div>
+  <div className="mt-4">
+    <p className="text-4xl font-bold">€0.00</p>
+    <p className="text-gray-500 dark:text-gray-400">/month</p>
   </div>
 
+</div>
+
+
+
+
+</div>
 </div>
 
 </section>
