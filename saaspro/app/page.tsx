@@ -53,7 +53,7 @@ export default function Home() {
     Our Ai-powered platform transforms how you handle receipts and track expenses.
     </p>
   </div>
-<div className="grid grid-cols-1 md-grid-cols-3 gap-8 mt-12">
+<div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
   {/*Feature 1*/}
   <div className="flex flex-col items-center space-y-2 border border-gray-200 rounded-lg p-6 dark:border-gray-800">
     <div className="p-3 rounded-full bg-blue-100 dark:bg-blue-900 ">
