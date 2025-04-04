@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero */}
-<section>
+<section className="py-20 md:py-28 bg-gradient-to-b from-blue-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
   <div className="container px-4 md:px-6 mx-auto">
 <div className="flex flex-col items-center space-y-4 text-center">
 <div className="space-y-2">
