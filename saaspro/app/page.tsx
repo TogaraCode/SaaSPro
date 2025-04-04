@@ -175,9 +175,11 @@ export default function Home() {
 </div>
 {/* Pro Tier*/}
 <div className="flex flex-col p-6 bg-blue-50 border border-blue-200 rounded-lg shadow-sm dark:border-blue-800 dark:bg-blue-900/20">
-  <div className="absolute -top3 right-4 bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-medium">
+ {/*
+ <div className="absolute m-top-3 right-4 bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-medium">
     Popular
   </div>
+ */} 
   <div className="space-y-2">
     <h3 className="text-2xl font-bold">Pro</h3>
     <p className="text-gray-500 dark:text-gray400">
