@@ -82,17 +82,31 @@ export default function Home() {
   <h3 className="text-xl font-bold">Expense Insights</h3>
   <p className="text-gray-500 dark:text-gray400 text-center">
     Generate reports and gain valuable insights from spending patterns.
-
   </p>
-
 </div>
-
 </div>
 </div>
   </div>
 </section>
       {/* Pricing */}
+<section className="py-16 md:py-24 bg-gray-50 dark:bg-gray-900">
+<div className="container px-4 md:px-6 mx-auto">
+  <div className="fley flex-col items-center justify-center space-y-4 text-center">
+    <div className="space-y-2">
+      <h2 className="text-3xl font-bold tracking-tighter md:text-4xl">
+        Simple Pricing
+      </h2>
+      <p className="max-w-[700px] text-gray-500 md:text-xl dark:text-gray-400">
+        Choose the plan that works best for your needs.
+      </p>
 
+    </div>
+
+  </div>
+
+</div>
+
+</section>
       {/* Info */}
 
       {/* Footer */}
