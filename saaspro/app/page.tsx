@@ -128,6 +128,14 @@ export default function Home() {
       <span>7-day history</span>
     </li>
   </ul>
+  <div className="mt-6">
+    <Link href="/manage-plan">
+      <Button className="w-full" variant="outline">
+        Sign Up Free
+      </Button>
+    </Link>
+
+  </div>
 
 </div>
 
