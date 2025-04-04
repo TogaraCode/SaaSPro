@@ -1,4 +1,4 @@
-import { ArrowRight, Upload, Search } from "lucide-react";
+import { ArrowRight, Upload, Search, BarChart  } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
@@ -72,10 +72,20 @@ export default function Home() {
 <h3 className="text-xl font-bold">AI Analysis</h3>
 <p className="text-gray-500 dark:text-gray-400 text-center">
   Automatically extract and categorize expense data with intelligent AI
-
 </p>
 </div>
+{/*Feature 3*/}
+<div className="flex flex-col items-center space-y-2 border border-gray-200 rounded-lg p-6 dark:border-gray-800">
+  <div className="p-3 rounded-full bg-purple-100 dark:bg-purple-900">
+    <BarChart className="h-6 w-6 text-purple-600 dark:text-purple-400"/>
+  </div>
+  <h3 className="text-xl font-bold">Expense Insights</h3>
+  <p className="text-gray-500 dark:text-gray400 text-center">
+    Generate reports and gain valuable insights from spending patterns.
 
+  </p>
+
+</div>
 
 </div>
 </div>
