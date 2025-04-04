@@ -6,13 +6,10 @@ import { SchematicEmbed as SchematicEmbedComponent } from "@schematichq/schemati
 function SchematicEmbed({
     accessToken,
     componentId,
-}: {
+} : {
     accessToken: string;
     componentId: string;
 }) {
-  
-
-
   return <SchematicEmbedComponent accessToken={accessToken} id={componentId} />
 }
 

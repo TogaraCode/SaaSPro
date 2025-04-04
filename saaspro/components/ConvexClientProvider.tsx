@@ -36,14 +36,10 @@ if (user?.id) {
       name: userName,
     }
   });
-
 }
-
 }, [user, identify]);
-
   return children
 }
-
 export default function ConvexClientProvider({
   children,
 }: {
@@ -51,13 +47,9 @@ export default function ConvexClientProvider({
 }) {
   return (
     <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
-      <SchematicProvider 
-      publishableKey={process.env.NEXT_PUBLIC_SCHEMATIC_KEY!}
-      >
+      <SchematicProvider publishableKey={process.env.NEXT_PUBLIC_SCHEMATIC_KEY!}>
         <SchematicWrapped>{children}</SchematicWrapped>
-       
       </SchematicProvider>
-      
     </ConvexProviderWithClerk>
   );
 }
