@@ -1,4 +1,4 @@
-import { ArrowRight, Upload } from "lucide-react";
+import { ArrowRight, Upload, Search } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
@@ -63,8 +63,19 @@ export default function Home() {
     <p className="text-gray-500 dark:text-gray-400 text-center">
       Drag and drop your PDF receipts for instant scanning and processing.
     </p>
-
   </div>
+{/*Feature 2*/}
+<div className="flex flex-col items-center space-y-2 border border-gray-200 rounded-lg p-6 dark:border-gray-800">
+  <div className="p-3 rounded-full bg-green-100 dark:bg-green-900">
+    <Search className="h-6 w-6 text-green-600 dark:text-green-400" />
+  </div>
+<h3 className="text-xl font-bold">AI Analysis</h3>
+<p className="text-gray-500 dark:text-gray-400 text-center">
+  Automatically extract and categorize expense data with intelligent AI
+
+</p>
+</div>
+
 
 </div>
 </div>
