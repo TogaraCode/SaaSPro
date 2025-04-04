@@ -1,4 +1,4 @@
-import { ArrowRight, Upload, Search, BarChart  } from "lucide-react";
+import { ArrowRight, Upload, Search, BarChart, Check  } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
@@ -114,6 +114,20 @@ export default function Home() {
     <p className="text-4xl font-bold">€0.00</p>
     <p className="text-gray-500 dark:text-gray-400">/month</p>
   </div>
+  <ul className="mt-6 space-y-2 flex-1">
+    <li className="flex items-center">
+      <Check className="text-green-500 h-5 w-5 mr-2" />
+      <span>2 Scans per month</span>
+    </li>
+    <li className="flex items-center">
+      <Check className="text-green-500 h-5 w-5 mr-2" />
+      <span>Basic Data Extraction</span>
+    </li>
+    <li className="flex items-center">
+      <Check className="text-green-500 h-5 w-5 mr-2" />
+      <span>7-day history</span>
+    </li>
+  </ul>
 
 </div>
 
