@@ -1,4 +1,4 @@
-import { ArrowRight, Upload, Search, BarChart, Check  } from "lucide-react";
+import { ArrowRight, Upload, Search, BarChart, Check, Shield  } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
@@ -229,8 +229,39 @@ export default function Home() {
 
 </section>
       {/* Info */}
-
+<section className="py-16 md:py-24">
+  <div className="container px-4 md:px-6 mx-auto">
+    <div className="text-center max-w-3xl mx-auto space-y-4">
+      <div className="space-y-2">
+        <h2 className="text-3xl font-bold tracking-tighter md:text-4xl">
+          Start Scanning Today
+        </h2>
+      <p className="text-gray-500 md:text-xl dark:text-gray-400">
+          Join thousands of users who save time and gain insights from their receipts.
+      </p>
+      </div>
+    </div>
+  </div>
+</section>
       {/* Footer */}
+      <footer className="border-t border-gray-200 dark:border-gray-800">
+        <div className="container px-4 md:px-6 py-8 mx-auto">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <div className="flex items-center space-x-1">
+              <Shield className="h-6 w-6 text-blue-600" />
+              <span className="text-xl font-semibold">Togario</span>
+            </div>
+      <div className="mt:4 md:mt-0">
+        <p className="text-sm text-gray-500 dark:text-gray-400">
+          Togario. The smarter way to track your money!
+        </p>
+
+      </div>
+          </div>
+
+        </div>
+
+      </footer>
     </div>
   );
 }
