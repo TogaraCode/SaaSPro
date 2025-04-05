@@ -140,7 +140,7 @@ export default function Home() {
   <div className="space-y-2">
     <h3 className="text-2xl font-bold">Starter</h3>
     <p className="text-gray-500 dark:text-gray400">
-      taste of Frugalio goodness!
+      taste of Togario goodness!
     </p>
   </div>
   <div className="mt-4">
