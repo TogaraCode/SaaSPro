@@ -29,6 +29,10 @@ function PDFDropzone() {
     //Set up sensors for drag detection
     const sensors = useSensors(useSensor(PointerSensor));
 
+    const handleUpload = useCallback(async (files: FileList | File[]) => {
+        
+    }, [user, router]);
+
     // Handle file drop via native browser events for better PDF support
     const handleDragOver = useCallback((e: React.DragEvent) => {
         e.preventDefault();
@@ -45,7 +49,16 @@ function PDFDropzone() {
     const handleDrop = useCallback((e: React.DragEvent) => {
         e.preventDefault()
         setIsDraggingOver(false)
-    },[])
+
+        if (!user) {
+            alert("Please sign in to upload files");
+            return
+        }
+        
+        if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+            handleUpload(e.dataTransfer.files)
+        }
+    },[user, handleUpload])
 
 
     //const canUpload = isUserSignedIn && isFeatureEnabled
