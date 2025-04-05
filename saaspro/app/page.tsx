@@ -83,9 +83,9 @@ export default function Home() {
   <p className="text-gray-500 dark:text-gray400 text-center">
     Generate reports and gain valuable insights from spending patterns.
   </p>
-</div>
-</div>
-</div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
       {/* Pricing */}
@@ -183,7 +183,7 @@ export default function Home() {
   <div className="space-y-2">
     <h3 className="text-2xl font-bold">Pro</h3>
     <p className="text-gray-500 dark:text-gray400">
-      Pro features for Pro user!
+      Pro features for a Pro user!
     </p>
   </div>
   <div className="mt-4">
