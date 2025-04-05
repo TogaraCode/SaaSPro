@@ -140,7 +140,7 @@ export default function Home() {
   <div className="space-y-2">
     <h3 className="text-2xl font-bold">Starter</h3>
     <p className="text-gray-500 dark:text-gray400">
-      taste of Togario goodness!
+      taste of Togario!
     </p>
   </div>
   <div className="mt-4">
@@ -183,7 +183,7 @@ export default function Home() {
   <div className="space-y-2">
     <h3 className="text-2xl font-bold">Pro</h3>
     <p className="text-gray-500 dark:text-gray400">
-      Pro features for a Pro user!
+      Pro features for a Pro!
     </p>
   </div>
   <div className="mt-4">
