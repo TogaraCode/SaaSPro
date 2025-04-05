@@ -1,18 +1,30 @@
 'use client'
 
+import { useUser } from '@clerk/clerk-react';
 import {
     DndContext,
     useSensor,
     useSensors,
     PointerSensor
 } from  '@dnd-kit/core';
-
-import { useCallback, useState } from "react";
+import { useSchematicEntitlement } from '@schematichq/schematic-react';
+import { useRouter } from 'next/navigation';
+import { useCallback, useRef, useState } from "react";
 
 
 function PDFDropzone() {
-
+    const [isUploading, setIsUploading] = useState(false);
+    const [uploadedFiles, setUploadedFiles] = useState<string[]>([]);
     const [isDraggingOver, setIsDraggingOver] = useState(false);
+    const fileInputRef = useRef<HTMLInputElement>(null)
+    const router = useRouter()
+    const {user} = useUser()
+    const {
+        value: isFeatureEnabled,
+        featureUsageExceeded,
+        featureUsage,
+        featureAllocation,
+    } = useSchematicEntitlement("scans")
 
     //Set up sensors for drag detection
     const sensors = useSensors(useSensor(PointerSensor));
@@ -30,11 +42,9 @@ function PDFDropzone() {
     }, [])
 
 
-    const handleDrop = useCallback((e:DragEvent) => {
+    const handleDrop = useCallback((e: React.DragEvent) => {
         e.preventDefault()
         setIsDraggingOver(false)
-        
-        console.log("Dropped");
     },[])
 
 
@@ -53,8 +63,6 @@ function PDFDropzone() {
                 isDraggingOver ? " border-blue-500 bg-blue-50" : "border-gray-300"} 
                 ${!canUpload ? "opacity-70 cursor-not-allowed" : ""}`}
             >
-            
-
         </div>
         
         </div> </DndContext>
