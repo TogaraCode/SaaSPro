@@ -1,6 +1,10 @@
 'use server'
 
+import { POST } from "@/app/api/inngest/route";
+import { api } from "@/convex/_generated/api";
+import convex from "@/lib/convexClient";
 import { currentUser } from "@clerk/nextjs/server"
+import { arrayBuffer } from "stream/consumers";
 
 /*
 *sever action to upload a PDF file to Convex storage
@@ -29,8 +33,58 @@ export async function uploadPDF(formData: FormData) {
             return { success: false, error: "Only PDF files are allowed"}
         }
 
+        // Get upload URL from Convex
+        const uploadUrl = await convex.mutation(api.receipts.generateUploadUrl, {})
+
+        // Convert file to arrayBuffer for fetch API
+        const ArrayBuffer = await file.arrayBuffer()
+
+        //Upload the file to Convex storage
+
+        const uploadResponse = await fetch(uploadUrl, {
+            method:"POST",
+            headers: {
+                "Content-Type": file.type,
+            },
+            body: new Uint8Array(arrayBuffer),
+        });
+
+        if (!uploadResponse.ok) {
+            throw new Error(`Failed to upload file: ${uploadResponse.statusText}`)
+        }
+
+        //Get storage ID from the response
+        const { storageId } = await uploadResponse.json();
+
+
+        // add receipt to the database
+
+        const receiptId = await convex.mutation(api.receipts.storeReceipt, {
+            userId: user.id,
+            fileId: storageId,
+            fileName: file.name,
+            size: file.size,
+            mimeType: file.type,
+        });
+
+        //Generate the file URL
+
+        const fileUrl = await getFileDownloadUrl(storageId)
+
+        // TODO : Trigger inngest agent flow...
+
+        return {
+            success : true,
+            data: {
+                receiptId,
+                fileName: file.name,
+            },
+        };
+
+
+
     } catch (error) {
-        console.log("Server action upload error", error)
+        console.error("Server action upload error", error)
         return {
             success: false,
             error:

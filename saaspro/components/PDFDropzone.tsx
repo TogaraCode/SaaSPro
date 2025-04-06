@@ -40,7 +40,7 @@ function PDFDropzone() {
     const fileArray = Array.from(files);
     const pdfFiles = fileArray.filter(
         (file) =>
-            file.type === "application/pdf " ||
+            file.type === "application/pdf"||
         file.name.toLocaleLowerCase().endsWith(".pdf"),
     );
 
@@ -80,7 +80,7 @@ function PDFDropzone() {
         router.push("/receipts")
 
     } catch (error) {
-        console.log("upload failed", error);
+       
         alert(
             ` Upload failed: ${error instanceof Error ? error.message : "uknown error"}`,
         );
@@ -121,7 +121,8 @@ function PDFDropzone() {
 
     //const canUpload = isUserSignedIn && isFeatureEnabled
 
-    const canUpload = true;
+    const isUserSignedIn = !!user;
+    const canUpload = isUserSignedIn && isFeatureEnabled;
 
   return (
     <DndContext sensors={sensors}>
