@@ -13,7 +13,7 @@ export default defineSchema({
     fileId: v.id("_storage"),
     uploadedAt: v.number(),
     size: v.number(),
-    mimeType: v.string()
+    mimeType: v.string(),
     status: v.string(),      //'pending', 'processed', 'error'
     
 

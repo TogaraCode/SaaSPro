@@ -1,5 +1,6 @@
 'use client'
 
+import { uploadPDF } from '@/actions/uploadPDF';
 import { useUser } from '@clerk/clerk-react';
 import {
     DndContext,
@@ -43,7 +44,7 @@ function PDFDropzone() {
         file.name.toLocaleLowerCase().endsWith(".pdf"),
     );
 
-    if (pdfFiles.lenght === 0) {
+    if (pdfFiles.length === 0) {
         alert("Please drop only PDF files");
         return;
     }
