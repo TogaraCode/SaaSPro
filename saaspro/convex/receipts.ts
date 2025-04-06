@@ -1,5 +1,6 @@
 import { v } from "convex/values"
 import { mutation, query} from "./_generated/server"
+import { captureRejectionSymbol } from "events";
 
 // Function to generate a Convex upload URL for the client
 export const generateUploadUrl = mutation({
@@ -74,7 +75,7 @@ export const getReceiptsById = query({
         //Verify user has access to this receipt
 
         if (receipt) {
-            const identify = await ctx.auth.getUserIdentity();
+            const identity = await ctx.auth.getUserIdentity();
             if (!identity) {
                 throw new Error("Not authorized to access this receipt")
             }
@@ -84,14 +85,133 @@ export const getReceiptsById = query({
     }
 });
 
-// Generate a URL to download a reipt file 
+// Generate a URL to download a receipt file 
 export const getReceiptDownloadUrl = query({
     args: {
-        fileId: v.id("storage"),
+        fileId: v.id("_storage"),
     },
     handler: async (ctx, args) => {
         // Get a temporary URL that can be used to download a file
         return await ctx.storage.getUrl(args.fileId)
     }
 })
+
+// Update the status of a receipt
+export const updateReceiptStatus = mutation({
+    args: {
+        id: v.id("receipts"),
+        status: v.string(),
+    },
+    handler: async (ctx, args) => {
+        // Verify user has access to this receipt
+    const receipt = await ctx.db.get(args.id);
+    if (!receipt) {
+        throw new Error("Receipt not found");
+    }    
+
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+        throw new Error("Not authenticated");
+    }
+
+    const userId = identity.subject;
+    if (receipt.userId !== userId) {
+        throw new Error("Not authenticated to update this receipt");
+    }
+
+    await ctx.db.patch(args.id, {
+        status: args.status,
+    })
+
+    return true;
+
+    }
+})
+
+// Delete Receipt and its file
+
+export const deleteReceipt = mutation({
+    args:{
+        id: v.id("receipts"),
+    }, 
+    handler: async (ctx, args) => {
+        const receipt = await ctx.db.get(args.id);
+        if(!receipt) {
+            throw new Error("Receipt not found");
+        }
+
+        //Verify has acces to this receipt
+
+        const identity = await ctx.auth.getUserIdentity();
+        if (!identity) {
+            throw new Error("Not Authenticated");
+        }
+
+        const userId = identity.subject;
+        if (receipt.userId !== userId) {
+            throw new Error("not authorized to delete this receipt");
+        }
+
+        // Deleted the file from storage
+
+        await ctx.storage.delete(receipt.fileId);
+
+        // Delete the receipt record
+        await ctx.db.delete(args.id);
+
+        return true
+    },
+
+});
+
+// Update a receipt with extracted data
+
+export const updateReceiptWithExtractedData = mutation({
+    args: {
+        id: v.id("receipts"),
+        fileDisplayName: v.string(),
+        merchantName: v.string(),
+        merchantAddress: v.string(),
+        merchantContact: v.string(),
+        transactionDate: v.string(),
+        transactionAmount: v.string(),
+        currency: v.string(),
+        receiptSummary: v.string(),
+        items: v.array(
+            v.object({
+                name: v.string(),
+                quantity: v.number(),
+                unitPrice: v.number(),
+                totalPrice: v.number(),
+            }),
+        ),
+    },
+
+    handler: async (ctx, args) => {
+        //verify the receipt exists
+        const receipt = await ctx.db.get(args.id);
+        if(!receipt) {
+            throw new Error("Receipt not found")
+        }
+
+        //Update the receipts with the extracted data
+        await ctx.db.patch(args.id, {
+            fileDisplayName: args.fileDisplayName,
+            merchantName: args.merchantName,
+            merchantAddress: args.merchantAddress,
+            merchantContact: args.merchantContact,
+            transactionDate: args.transactionDate,
+            transactionAmount: args.transactionAmount,
+            currency: args.currency,
+            receiptSummary: args.receiptSummary,
+            items: args.items,
+            status: "processed", // Mark as processed now that we have extracded the data
+        });
+
+        return {
+            userId: receipt.userId,
+        };
+    },
+
+});
 
