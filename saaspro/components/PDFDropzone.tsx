@@ -30,8 +30,65 @@ function PDFDropzone() {
     const sensors = useSensors(useSensor(PointerSensor));
 
     const handleUpload = useCallback(async (files: FileList | File[]) => {
+        if (!user) {
+            alert("Please sign in to upload files");
+            return
+        }
+// Only accept Pdf files
+
+    const fileArray = Array.from(files);
+    const pdfFiles = fileArray.filter(
+        (file) =>
+            file.type === "application/pdf " ||
+        file.name.toLocaleLowerCase().endsWith(".pdf"),
+    );
+
+    if (pdfFiles.lenght === 0) {
+        alert("Please drop only PDF files");
+        return;
+    }
+    setIsUploading(true);
+
+    try {
+        //Upload files
+        const newUploadedFiles: string[] = [];
+
+        for (const file of pdfFiles) {
+       // Create a FormData object to use with server action
+       const formData = new FormData();
+       formData.append("file", file);     
+        // Call server action to handle the upload
+        const result = await uploadPDF(formData);
         
-    }, [user, router]);
+        if (!result.success) {
+            throw new Error(result.error)
+        }
+
+        newUploadedFiles.push(file.name)
+
+        }
+
+        setUploadedFiles((prev) => [...prev, ...newUploadedFiles])
+
+        //Clear uploaded files list after 5 seconds
+
+        setTimeout(() => {
+            setUploadedFiles([]);
+        },5000)
+
+        router.push("/receipts")
+
+    } catch (error) {
+        console.log("upload failed", error);
+        alert(
+            ` Upload failed: ${error instanceof Error ? error.message : "uknown error"}`,
+        );
+    } finally {
+        setIsUploading(false)
+    }
+    }, 
+    [user, router]
+    );
 
     // Handle file drop via native browser events for better PDF support
     const handleDragOver = useCallback((e: React.DragEvent) => {
