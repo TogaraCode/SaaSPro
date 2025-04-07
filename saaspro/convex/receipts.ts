@@ -13,7 +13,7 @@ export const generateUploadUrl = mutation({
 
 // Store a receipts file and add it to the database
 
-export const storeReceipts = mutation({
+export const storeReceipt = mutation({
     args: {
         userId: v.string(),
         fileId: v.id("_storage"),

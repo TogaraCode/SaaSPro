@@ -9,6 +9,7 @@ import {
     PointerSensor
 } from  '@dnd-kit/core';
 import { useSchematicEntitlement } from '@schematichq/schematic-react';
+import { AlertCircle, CheckCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useCallback, useRef, useState } from "react";
 
@@ -126,7 +127,7 @@ function PDFDropzone() {
 
   return (
     <DndContext sensors={sensors}>
-        <div className="w-full max-w-md mx-auto bg-red-400">
+        <div className="w-full max-w-md mx-auto ">
         <div 
             onDragOver ={canUpload ? handleDragOver : undefined}
             onDragLeave={canUpload ? handleDragLeave : undefined}
@@ -136,8 +137,39 @@ function PDFDropzone() {
                 ${!canUpload ? "opacity-70 cursor-not-allowed" : ""}`}
             >
         </div>
-        
-        </div> </DndContext>
+
+        <div className='mt-4'>
+            {featureUsageExceeded && (
+                <div className='flex items-center p-3 bg-red-50 border border-red-20 rounded-md
+                text-red-600'>
+                    <AlertCircle className='h-5 w-5 mr-5 flex-shrink-0' />
+                    <span>
+                        You have exceeded your linit of {featureAllocation} scans.
+                        Please upgrade to continue.
+                    </span>
+                </div>
+            )}
+        </div>
+
+            {uploadedFiles.length > 0 && (
+                <div className='mt-4'> 
+                <h3 className='font-medium'>Uploaded Files:</h3>
+                <ul className='mt-2 text-sm text-gray-600 space-y-1'>
+                    {uploadedFiles.map((fileName, i) => (
+                        <li key={i} className='flex items-center'>
+                            <CheckCircle className='h-5 w-5 text-green-500 mr-2' />
+                            {fileName}
+                        </li>
+                    ))}
+
+                </ul>
+                </div>
+            )}
+
+
+
+            </div> 
+    </DndContext>
   )
 }
 

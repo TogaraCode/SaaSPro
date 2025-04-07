@@ -5,7 +5,7 @@ import { api } from "@/convex/_generated/api";
 import convex from "@/lib/convexClient";
 import { currentUser } from "@clerk/nextjs/server"
 import { arrayBuffer } from "stream/consumers";
-
+import { getFileDownloadUrl } from "./getFileDownloadUrl";
 /*
 *sever action to upload a PDF file to Convex storage
 */
@@ -37,7 +37,7 @@ export async function uploadPDF(formData: FormData) {
         const uploadUrl = await convex.mutation(api.receipts.generateUploadUrl, {})
 
         // Convert file to arrayBuffer for fetch API
-        const ArrayBuffer = await file.arrayBuffer()
+        const arrayBuffer = await file.arrayBuffer();
 
         //Upload the file to Convex storage
 
@@ -50,7 +50,7 @@ export async function uploadPDF(formData: FormData) {
         });
 
         if (!uploadResponse.ok) {
-            throw new Error(`Failed to upload file: ${uploadResponse.statusText}`)
+            throw new Error(`Failed to upload file: ${uploadResponse.statusText}`);
         }
 
         //Get storage ID from the response
