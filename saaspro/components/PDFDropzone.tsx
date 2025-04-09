@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { uploadPDF } from '@/actions/uploadPDF';
 import { useUser } from '@clerk/clerk-react';
@@ -9,22 +9,22 @@ import {
     PointerSensor
 } from  '@dnd-kit/core';
 import { useSchematicEntitlement } from '@schematichq/schematic-react';
-import { AlertCircle, CheckCircle } from 'lucide-react';
+import { AlertCircle, CheckCircle, CloudUpload } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useCallback, useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
+import { Button } from './ui/button';
 
 
 function PDFDropzone() {
     const [isUploading, setIsUploading] = useState(false);
     const [uploadedFiles, setUploadedFiles] = useState<string[]>([]);
     const [isDraggingOver, setIsDraggingOver] = useState(false);
-    const fileInputRef = useRef<HTMLInputElement>(null)
-    const router = useRouter()
-    const {user} = useUser()
+    const fileInputRef = useRef<HTMLInputElement>(null);
+    const router = useRouter();
+    const {user} = useUser();
     const {
         value: isFeatureEnabled,
         featureUsageExceeded,
-        featureUsage,
         featureAllocation,
     } = useSchematicEntitlement("scans")
 
@@ -117,7 +117,20 @@ function PDFDropzone() {
         if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
             handleUpload(e.dataTransfer.files)
         }
-    },[user, handleUpload])
+    },[user, handleUpload],
+    );
+
+    const handleFileInputChange = useCallback(
+        (e: React.ChangeEvent<HTMLInputElement>) => {
+            if (e.target.files?.length) {
+                handleUpload(e.target.files);
+            }
+        },[handleUpload]
+    )
+
+    const triggerFileInput = useCallback(() => {
+        fileInputRef.current?.click();
+    }, []);
 
 
     //const canUpload = isUserSignedIn && isFeatureEnabled
@@ -136,6 +149,39 @@ function PDFDropzone() {
                 isDraggingOver ? " border-blue-500 bg-blue-50" : "border-gray-300"} 
                 ${!canUpload ? "opacity-70 cursor-not-allowed" : ""}`}
             >
+                {isUploading ? (
+                    <div className='flex flex-col items-center'>
+                        <div className='animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-blue-500 mb-2'></div>
+                        <p>Uploading....</p>
+                    </div>
+                ) : !isUserSignedIn ? (
+                    <>
+                    <CloudUpload className="mx-auto h-12 w-12 text-gray-400" />
+                    <p className='mt-2 text-sm text-gray-600'>
+                        Please sign in to upload files
+                    </p>
+                    </>
+                ) : (
+                    <>
+                    <CloudUpload className='mx-auto h-12 w-12 text-gray-400' />
+                    <p className='mt-2 text-sm text-gray-600'>
+                        Drag and drop files here or click to select files.
+                    </p>
+                    <input
+                    type='file'
+                    ref={fileInputRef}
+                    accept='application/pdf,.pdf'
+                    multiple onChange={handleFileInputChange}
+                    className='hidden'
+                    />
+                    <Button className='mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed'
+                    disabled={!isFeatureEnabled}
+                    onClick={triggerFileInput}
+                    >
+                        {isFeatureEnabled ? "Select files" : "Upgrade to upload"}
+                    </Button>
+                    </>
+                )}
         </div>
 
         <div className='mt-4'>
