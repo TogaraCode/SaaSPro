@@ -205,7 +205,7 @@ export const updateReceiptWithExtractedData = mutation({
             currency: args.currency,
             receiptSummary: args.receiptSummary,
             items: args.items,
-            status: "processed", // Mark as processed now that we have extracded the data
+            status: "processed", // Mark as processed now that we have extracted the data
         });
 
         return {

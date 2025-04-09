@@ -83,7 +83,7 @@ function PDFDropzone() {
     } catch (error) {
        
         alert(
-            ` Upload failed: ${error instanceof Error ? error.message : "uknown error"}`,
+            `Upload failed: ${error instanceof Error ? error.message : "uknown error"}`,
         );
     } finally {
         setIsUploading(false)
@@ -190,7 +190,7 @@ function PDFDropzone() {
                 text-red-600'>
                     <AlertCircle className='h-5 w-5 mr-5 flex-shrink-0' />
                     <span>
-                        You have exceeded your linit of {featureAllocation} scans.
+                        You have exceeded your limit of {featureAllocation} scans.
                         Please upgrade to continue.
                     </span>
                 </div>
