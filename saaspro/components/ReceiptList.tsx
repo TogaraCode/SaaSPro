@@ -84,9 +84,12 @@ function ReceiptList() {
                 <TableCell className="font-medium">
                     {receipt.fileDisplayName || receipt.fileName}
                 </TableCell>
-
-
-
+                <TableCell>
+                    {new Date(receipt.uploadedAt).toLocaleString()}
+                </TableCell>
+                <TableCell>{formatFileSize(receipt.size)}</TableCell>
+                <TableCell>{receipt.transactionAmount  ? `${receipt.transactionAmount } ${receipt.currency || ""}`: "-"}</TableCell>
+                
                 </TableRow>
             ))}
         </TableBody>
@@ -97,3 +100,15 @@ function ReceiptList() {
 }
 
 export default ReceiptList
+
+// Helper Function
+
+function formatFileSize(bytes: number): string {
+    if (bytes === 0) return "0 Bytes";
+
+    const k = 1024;
+    const sizes = ["Bytes", "KB", "MB", "GB"];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+    return parseFloat((bytes / Math.pow(k, i)).toFixed() + " " + sizes[i])
+}
