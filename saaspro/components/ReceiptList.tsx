@@ -12,7 +12,8 @@ import {
   } from "@/components/ui/table"
 
 import { useRouter } from "next/navigation" 
-  
+import { FileText } from "lucide-react"
+
 
 
 
@@ -76,14 +77,22 @@ function ReceiptList() {
                 onClick={() => {
                     router.push(`/receipt/${receipt.id}`)
                 }}
-                ></TableRow>
+                >
+                <TableCell className="py-2">
+                    <FileText className="h-6 w-6 text-red-500" />
+                </TableCell>
+                <TableCell className="font-medium">
+                    {receipt.fileDisplayName || receipt.fileName}
+                </TableCell>
+
+
+
+                </TableRow>
             ))}
         </TableBody>
-
-
     </Table>
     </div>
-    </div>
+</div>
   )
 }
 
