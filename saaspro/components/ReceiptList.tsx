@@ -13,7 +13,7 @@ import {
 
 import { useRouter } from "next/navigation" 
 import { FileText } from "lucide-react"
-
+import { ChevronRight } from "lucide-react"
 
 
 
@@ -75,7 +75,7 @@ function ReceiptList() {
                 key={receipt._id}
                 className="cursor-pointer hover:bg-gray-50"
                 onClick={() => {
-                    router.push(`/receipt/${receipt.id}`)
+                    router.push(`/receipt/${receipt._id}`)
                 }}
                 >
                 <TableCell className="py-2">
@@ -88,8 +88,28 @@ function ReceiptList() {
                     {new Date(receipt.uploadedAt).toLocaleString()}
                 </TableCell>
                 <TableCell>{formatFileSize(receipt.size)}</TableCell>
-                <TableCell>{receipt.transactionAmount  ? `${receipt.transactionAmount } ${receipt.currency || ""}`: "-"}</TableCell>
-                
+                <TableCell>{receipt.transactionAmount  ? `${receipt.transactionAmount } ${receipt.currency || ""}`
+                : "-"}
+                </TableCell>
+                <TableCell>
+                    <span
+                        className={`px-2 py-1 rounded-full text-xs ${
+                            receipt.status === "pending"
+                            ? "bg-yellow-100 text-yellow-800"
+                            : receipt.status === "processed"
+                            ? "bg-green-100 text-green-800"
+                            :"bg-red-100 text-red-800"
+                        }`}>
+
+                            {receipt.status.charAt(0).toUpperCase() + receipt.status.slice(1)}
+                        </span>
+                </TableCell>
+                <TableCell className="text-right">
+                    <ChevronRight className="h-5 w-5 text-gray-400 ml-auto" />
+                </TableCell>
+
+
+
                 </TableRow>
             ))}
         </TableBody>
@@ -110,5 +130,5 @@ function formatFileSize(bytes: number): string {
     const sizes = ["Bytes", "KB", "MB", "GB"];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
 
-    return parseFloat((bytes / Math.pow(k, i)).toFixed() + " " + sizes[i])
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2) + " " + sizes[i])
 }
