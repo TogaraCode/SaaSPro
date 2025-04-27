@@ -5,15 +5,13 @@ import {
 } from "@inngest/agent-kit";
 import { createServer } from "@inngest/agent-kit/server";
 import { inngest } from "./client";
-import Events from "./constants";
+import Events from "@/inngest/constants"; 
 import { databaseAgent } from "./agents/databaseAgent";
 import { receiptScanningAgent } from "./agents/receiptScanningAgent";
 
 const agentNetwork = createNetwork({
-    name: "Togara Team",
-    agents: [
-        databaseAgent, receiptScanningAgent
-    ],
+    name: "saaspro",
+    agents: [databaseAgent, receiptScanningAgent],
     defaultModel: anthropic({
         model: "claude-3-5-sonnet-latest",
         defaultParameters: {
@@ -42,7 +40,7 @@ export const extractAndSavePDF = inngest.createFunction(
 { event: Events.EXTRACT_DATA_FROM_PDF_AND_SAVE_TO_DATABASE },
 async ({ event }) => {
     const result = await agentNetwork.run(
-        `Extract the key data from this pdf: ${event.data.url}. Once the data is extracted. save it to the database using the
+        `Extract the key data from this pdf: ${event.data.url}. Once the data is extracted, save it to the database using the
         receiptId: ${event.data.receiptId}. Once the receipt is successfully saved to the database you can terminate the agent
         process.`,
     )

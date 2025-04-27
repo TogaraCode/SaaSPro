@@ -29,20 +29,15 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Ensure that fonts and class names are applied consistently
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <ClerkProvider dynamic>
           <ConvexClientProvider>
             <Header />
-            
-            <main>
-            {children}
-            </main>
-            
-            </ConvexClientProvider>
+            <main>{children}</main>
+          </ConvexClientProvider>
         </ClerkProvider>
       </body>
     </html>

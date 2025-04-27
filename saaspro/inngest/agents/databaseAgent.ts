@@ -5,7 +5,7 @@ import { client } from "@/lib/schematic";
 import { createAgent, createTool, openai } from "@inngest/agent-kit";
 import { object } from "@schematichq/schematic-typescript-node/core/schemas";
 import {z} from "zod"
-
+import { api } from "@/convex/_generated/api"
 
 const saveToDatabaseTool = createTool({
     name: "save-to-database",
@@ -64,7 +64,7 @@ const saveToDatabaseTool = createTool({
             async () => {
                 try {
                     // Call the Convex mutation to update the receipt with extracted data
-                    const { userId } = await convex mutation(
+                    const { userId } = await convex.mutation(
                         api.receipts.updateReceiptWithExtractedData,
                         {
                             id: receiptId as Id<"receipts">,
@@ -79,51 +79,63 @@ const saveToDatabaseTool = createTool({
                             items,
                         },
                     );
-
                         // Track event in Schematic
-
                         await client.track({
                             event: "scan",
                             company: {
                                 id: userId,
-                            }
-                        })
-
-
-
+                            },
+                            user: {
+                                id: userId,
+                            },
+                        });
+                        return {
+                           addedToDb: "Success",
+                           receiptId,
+                           fileDisplayName,
+                           merchantName,
+                           merchantAddress,
+                           merchantContact,
+                           transactionDate,
+                           transactionAmount,
+                           currency,
+                           receiptSummary,
+                           items,
+                        };
                 } catch (error) {
                     return {
                         addedToDb: "failed",
                         error: error instanceof Error ? error.message : " Unknown error",
                     };
-                    
                 }
             },
         );
 
+        if (result?.addedToDb ==="Success") {
+            //Only set KV values if the operation was successful
+            context.network?.state.kv.set("saved-to-database",true);
+            context.network?.state.kv.set("receipt", receiptId);
+        }
 
         if (result?.addedToDb === "Success") {
             //Only set KV values if the operation was successful
             context.network?.state.kv.set("saved-to-database", true);
             context.network?.state.kv.set("receipt", receiptId);
         }
-
         return result;
-
     },
 })
-
-
 export const databaseAgent = createAgent({
-    name: "Database Agent",
-    description:
+  name: "Database Agent",
+  description:
     "responsible for taking key information regarding receipts and saving it to the convex database.",
-    system:
+  system:
     "You are a helpful assistant that takes key information regarding receipts and saves it to the convex database.",
-    model: openai({"gpt-4o-mini",
+  model: openai({
+    model: "gpt-4o-mini",
     defaultParameters: {
-        max_completion_tokens: 1000,
+      max_completion_tokens: 1000,
     },
-}),
-    tools: [saveToDatabaseTool]
-})
+  }),
+  tools: [saveToDatabaseTool],
+});

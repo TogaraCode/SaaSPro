@@ -6,18 +6,18 @@ import convex from "@/lib/convexClient";
 import { currentUser } from "@clerk/nextjs/server"
 import { arrayBuffer } from "stream/consumers";
 import { getFileDownloadUrl } from "./getFileDownloadUrl";
+import { inngest } from "@/inngest/client";
+import  Events  from "@/inngest/constants";
 /*
 *sever action to upload a PDF file to Convex storage
 */
-
 export async function uploadPDF(formData: FormData) {
     const user = await currentUser();
 
     if (!user) {
         return{ success: false, error: "Not authenticated"}
     }
-
-    try {
+      try {
         // Get the file from form Data
         const file = formData.get("file") as File;
 
@@ -40,7 +40,6 @@ export async function uploadPDF(formData: FormData) {
         const arrayBuffer = await file.arrayBuffer();
 
         //Upload the file to Convex storage
-
         const uploadResponse = await fetch(uploadUrl, {
             method:"POST",
             headers: {
@@ -56,9 +55,7 @@ export async function uploadPDF(formData: FormData) {
         //Get storage ID from the response
         const { storageId } = await uploadResponse.json();
 
-
         // add receipt to the database
-
         const receiptId = await convex.mutation(api.receipts.storeReceipt, {
             userId: user.id,
             fileId: storageId,
@@ -68,10 +65,16 @@ export async function uploadPDF(formData: FormData) {
         });
 
         //Generate the file URL
-
         const fileUrl = await getFileDownloadUrl(storageId)
 
         // TODO : Trigger inngest agent flow...
+        await inngest.send({
+            name: Events.EXTRACT_DATA_FROM_PDF_AND_SAVE_TO_DATABASE,
+            data: {
+                url: fileUrl.downloadUrl,
+                receiptId,
+            },
+        })
 
         return {
             success : true,
@@ -80,9 +83,6 @@ export async function uploadPDF(formData: FormData) {
                 fileName: file.name,
             },
         };
-
-
-
     } catch (error) {
         console.error("Server action upload error", error)
         return {
