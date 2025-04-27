@@ -80,7 +80,7 @@ export const receiptScanningAgent = createAgent({
     model: openai({
         model: "gpt-4o-mini",
         defaultParameters: {
-            max_completion_tokens: 3094,
+            max_completion_tokens: 1000,
         },
     }),
     tools: [parsePdfTool],
