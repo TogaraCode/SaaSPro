@@ -11,7 +11,6 @@ export const generateUploadUrl = mutation({
 });
 
 // Store a receipts file and add it to the database
-
 export const storeReceipt = mutation({
     args: {
         userId: v.string(),
@@ -61,7 +60,6 @@ export const getReceipts = query({
 });
 
 // Function to get a single receipt by ID
-
 export const getReceiptsById = query({
     args: {
         id: v.id("receipts"),

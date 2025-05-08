@@ -24,48 +24,51 @@ const parsePdfTool = createTool({
                 body: {
                     messages: [
                         {
-                            role: "user",
-                            content:  [
-                                {
-                                    type: "document",
-                                    source : {
-                                        type:  "url",
-                                    url: pdfUrl,
-                                },
+                          role: "user",
+                          content: [
+                            {
+                              type: "document",
+                              source: {
+                                type: "url",
+                                url: pdfUrl,
+                              },
                             },
                             {
-                            type: "text",
-                            text: `
-                            Extract the data from the receipt and return the structured output as follows:
-                            {
-                              "merchant": {
-                                "name": "Store Name",
-                                "address": "123 Main St, City Country",
-                                "contact": "+123456789"
-                              },
-                              "transaction": {
-                                "date": "YYYY-MM-DD",
-                                "receipt_number": "ABC123456",
-                                "payment_method": "Credit Card"
-                              },
-                              "items": [
-                                {
-                                  "name": "Item 1",
-                                  "quantity": 2,
-                                  "unit_price": 10.00,
-                                  "total_price": 20.00
-                                }
-                              ],
-                              "totals": {
-                                "subtotal": 20.00,
-                                "tax": 2.00,
-                                "total": 22.00,
-                                "currency": "USD"
-                              },
-                            }`,
-                        },],  },
-                                                ],
-                                            },
+                              type: "text",
+                              text: `Extract the data from the receipt and return the structured output as follows:
+                      {
+                        "merchant": {
+                          "name": "Store Name",
+                          "address": "123 Main St, City Country",
+                          "contact": "+123456789"
+                        },
+                        "transaction": {
+                          "date": "YYYY-MM-DD",
+                          "receipt_number": "ABC123456",
+                          "payment_method": "Credit Card"
+                        },
+                        "items": [
+                          {
+                            "name": "Item 1",
+                            "quantity": 2,
+                            "unit_price": 10.00,
+                            "total_price": 20.00
+                          }
+                        ],
+                        "totals": {
+                          "subtotal": 20.00,
+                          "tax": 2.00,
+                          "total": 22.00,
+                          "currency": "USD"
+                        }
+                      }`,
+                            },
+                          ],
+                        },
+                    ], }
+                        
+                                              
+                                          
                                         });
                                     } catch (error) {
                                         console.error(error);
