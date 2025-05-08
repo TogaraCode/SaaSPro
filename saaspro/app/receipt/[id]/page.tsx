@@ -5,7 +5,17 @@ import { useQuery } from "convex/react";
 import { ChevronLeft} from "lucide-react";
 import { useParams, useRouter} from "next/navigation"
 import { useEffect, useState } from "react";
-import Link from "next/link"
+import Link from "next/link";
+
+
+function formatFileSize(bytes: number): string {
+  if (bytes === 0) return "0 Bytes";
+  const k = 1024;
+  const sizes = ["Bytes", "KB", "MB", "GB", "TB"];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
+}
+
 
 function Receipt() {
     const params = useParams<{ id: string }>();
@@ -38,7 +48,7 @@ function Receipt() {
 
   if (receipt === undefined) {
     return (
-      <div className="constainer mx-auto py-10-px-4">
+      <div className="container mx-auto py-10 px-4">
         <div className="flex flex-col items-center justify-center space-y-4">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600">
       
@@ -116,23 +126,42 @@ function Receipt() {
               }`}
               >
                 {receipt.status.charAt(0).toLocaleUpperCase() +
-                receipt.status.slice(1)
-                }
+                receipt.status.slice(1)}
               </span>
             </div>
-
+          </div>
+<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+  {/* Information */}
+          <div className="space-y-4">
+            <div>
+              <h3 className="text-sm font-medium text-gray-500">
+                File Information
+              </h3>
+              <div className="mt-2 bg-gray50 p-4 rounded-lg">
+                <div className="grid grid-cols-2 gap-4 text-sm">
+                  <div>
+                    <p className="text-gray-500">Uploaded</p>
+                    <p className="font-medium">Size</p>
+                    <p className="font-medium">
+                      {formatFileSize(receipt.size)}
+                    </p>
+                </div>
+                  <div>
+                    <p className="text-gray-500">Type</p>
+                    <p className="font-medium">{receipt.mimeType}</p>
+              </div>
+              <div>
+                <p className="text-gray-500">Type</p>
           </div>
 
+  {/* Download */}
+</div>
         </div>
       </div>
-
-
-
-
-
-
-
-
+      </div>
+      </div>
+      </div>
+      </div>
       </div>
     </div>
   )
