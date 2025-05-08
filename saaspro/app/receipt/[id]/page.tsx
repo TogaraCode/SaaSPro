@@ -84,9 +84,6 @@ function Receipt() {
       receipt.transactionDate ||
       receipt.transactionAmount
     )
-      
- 
-
   return(
     <div className="container mx-auto py-10 px-4">
       <div className ="max-w-4xl mx-auto">
@@ -99,8 +96,6 @@ function Receipt() {
             Back to Receipts
           </Link>
         </nav>
-
-
       <div className="bg-white shadow-md rounded-lg overflow-hidden mb-6 ">
         <div className="p-6">
           <div className="flex items-center justify-between mb-6">
@@ -161,18 +156,27 @@ function Receipt() {
   </div>
 </div>
   {/* Download */}
-                  <div className="">
-                    <div className="">
+                  <div className="flex items-center justify-center p-8 bg-gray-50 rounded-lg">
+                    <div className="text-center">
                       <FileText className="h-6 w-16 text-blue-500 mx-auto" />
-                      <p className="mt-4 px-4 py-4"></p>
-                      {}
+                      <p className="mt-4 text-gray-500">PDF Preview</p>
+                      {downloadUrl && (
+                        <a
+                         href={downloadUrl}
+                         target="_blank"
+                         rel="noopener noreferrer"
+                         className="mt-4 px-4 py-2 bg-blue-500 text-white text-sm rounded 
+                         hover:bg-blue-600 inline-block">
+                          View PDF
+                         </a>
+                      )}
                       
                       
                       
                       
                       
                       
-                      >
+                      
                     </div>
                   </div>
 
