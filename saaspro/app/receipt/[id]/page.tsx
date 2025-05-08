@@ -170,20 +170,57 @@ function Receipt() {
                           View PDF
                          </a>
                       )}
-                      
-                      
-                      
-                      
-                      
-                      
-                      
                     </div>
                   </div>
+              </div>
+              {/* Extracted Data Section */}
+                        {hasExtractedData && (
+                          <div className="mt-8">
+                            <h3 className="text-lg font-semibold mb-4">Receipt Details</h3>
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                {/* Merchant Details*/}
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <h4 className="font-medium text-gray-700 mb-3">
+                 Merchant Information
+              </h4>
+            </div>
+            <div className="space-y-2">
+                {receipt.merchantName && (
+                  <div>
+                    <p className="text-sm text-gray-500">Name</p>
+                    <p className="font-medium">{receipt.merchantName}</p>
+                    </div>
+                )}
+                {receipt.merchantName && (
+                  <div>
+                    <p className="text-sm text-gray-500">Address</p>
+                    <p className="font-medium">{receipt.merchantAddress}</p>
+                    </div>
+                )}
+                {receipt.merchantName && (
+                  <div>
+                    <p className="text-sm text-gray-500">Contact</p>
+                    <p className="font-medium">
+                      {receipt.merchantContact}
+                      </p>
+                    </div>
+                )}
+
+            </div>
 
 
 
 
-   </div>
+
+
+
+                                 {/* Transaction Details*/}
+
+
+                              </div>
+                          </div>
+                        )}
+               {/* End of Extracted Data Section */}
       </div>
           </div>
             </div>
