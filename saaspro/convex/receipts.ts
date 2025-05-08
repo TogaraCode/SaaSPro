@@ -1,6 +1,5 @@
 import { v } from "convex/values"
 import { mutation, query} from "./_generated/server"
-import { captureRejectionSymbol } from "events";
 
 // Function to generate a Convex upload URL for the client
 export const generateUploadUrl = mutation({
@@ -144,7 +143,7 @@ export const deleteReceipt = mutation({
 
         const identity = await ctx.auth.getUserIdentity();
         if (!identity) {
-            throw new Error("Not Authenticated");
+            throw new Error("Not authenticated");
         }
 
         const userId = identity.subject;

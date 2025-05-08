@@ -1,9 +1,7 @@
 import { Id } from "@/convex/_generated/dataModel";
-import { mutation } from "@/convex/_generated/server";
 import convex from "@/lib/convexClient";
 import { client } from "@/lib/schematic";
 import { createAgent, createTool, openai } from "@inngest/agent-kit";
-import { object } from "@schematichq/schematic-typescript-node/core/schemas";
 import {z} from "zod"
 import { api } from "@/convex/_generated/api"
 
@@ -33,8 +31,7 @@ const saveToDatabaseTool = createTool({
         ),
         currency: z.string(),
         items: z.array(
-            z
-            .object({
+               z.object({
                 name: z.string(),
                 quantity: z.number(),
                 unitPrice: z.number(),
@@ -113,14 +110,8 @@ const saveToDatabaseTool = createTool({
 
         if (result?.addedToDb ==="Success") {
             //Only set KV values if the operation was successful
-            context.network?.state.kv.set("saved-to-database",true);
-            context.network?.state.kv.set("receipt", receiptId);
-        }
-
-        if (result?.addedToDb === "Success") {
-            //Only set KV values if the operation was successful
-            context.network?.state.kv.set("saved-to-database", true);
-            context.network?.state.kv.set("receipt", receiptId);
+            context.network.state.kv.set("saved-to-database", true);
+            context.network.state.kv.set("receipt", receiptId);
         }
         return result;
     },
