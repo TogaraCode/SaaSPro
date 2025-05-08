@@ -2,7 +2,7 @@
 import {api} from "@/convex/_generated/api"
 import { Id } from "@/convex/_generated/dataModel";
 import { useQuery } from "convex/react";
-import { ChevronLeft} from "lucide-react";
+import { ChevronLeft, FileText} from "lucide-react";
 import { useParams, useRouter} from "next/navigation"
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -151,20 +151,41 @@ function Receipt() {
                     <p className="font-medium">{receipt.mimeType}</p>
               </div>
               <div>
-                <p className="text-gray-500">Type</p>
+                <p className="text-gray-500">ID</p>
+                <p className="font-medium truncate" title={receipt._id}>
+                  {receipt._id.slice(0, 10)}...
+                  </p>
           </div>
-
-  {/* Download */}
+     </div>
+   </div>
+  </div>
 </div>
-        </div>
+  {/* Download */}
+                  <div className="">
+                    <div className="">
+                      <FileText className="h-6 w-16 text-blue-500 mx-auto" />
+                      <p className="mt-4 px-4 py-4"></p>
+                      {}
+                      
+                      
+                      
+                      
+                      
+                      
+                      >
+                    </div>
+                  </div>
+
+
+
+
+   </div>
       </div>
-      </div>
-      </div>
-      </div>
-      </div>
-      </div>
-    </div>
+          </div>
+            </div>
+               </div>
   )
 }
 
 export default Receipt
+
