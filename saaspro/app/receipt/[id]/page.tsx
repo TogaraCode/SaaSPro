@@ -7,6 +7,7 @@ import { ChevronLeft, FileText, Lightbulb, Lock, Sparkles } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSchematicFlag } from "@schematichq/schematic-react";
+import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 function Receipt() {
   const params = useParams<{ id: string }>();
@@ -252,8 +253,51 @@ function Receipt() {
               </>
             )}
           </div>
+         
+          {receipt.items && receipt.items.length > 0 && (
+            <div className="mt-6">
+              <h4 className="font-medium text-gray-700 mb-3">
+                Items ({receipt.items.length})
+              </h4>
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Item</TableHead>
+                      <TableHead>Quantity</TableHead>
+                      <TableHead>Unit Price</TableHead>
+                      <TableHead>Total</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {receipt.items.map((item, index) => (
+                      <TableRow key={index}>
+                        <TableCell className="font-medium">
+                          {item.name}
+                        </TableCell>
+                        <TableCell>
+                          {item.quantity}
+                        </TableCell>
+                        <TableCell>
+                          {formatCurrency(
+                            item.unitPrice,
+                            receipt.currency,
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          {formatCurrency(
+                            item.totalPrice
+                          )}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+
+              </div>
+
+            </div>
           )}
-          
 
 
         </div>
