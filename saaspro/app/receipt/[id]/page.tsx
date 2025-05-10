@@ -1,30 +1,90 @@
 "use client"
-import { api } from "@/convex/_generated/api";
+
+import { api } from "@/convex/_generated/api"
 import { Id } from "@/convex/_generated/dataModel";
-import { useQuery } from "convex/react";
 import Link from "next/link";
 import { ChevronLeft, FileText, Lightbulb, Lock, Sparkles } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSchematicFlag } from "@schematichq/schematic-react";
-import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { getFileDownloadUrl } from "@/actions/getFileDownloadUrl";
+import { deleteReceipt } from "@/actions/deleteReceipt"
+import { useQuery } from "convex/react";
+
+
 
 function Receipt() {
   const params = useParams<{ id: string }>();
   const [receiptId, setReceiptId] = useState<Id<"receipts"> | null>(null);
   const router = useRouter();
   const isSummariesEnabled = useSchematicFlag("summary");
+  const [isDeleting, setIsDeleting] = useState(false)
+  const [isLoadingDownload, setIsLoadingDownload] = useState(false)
+ 
 
   const receipt = useQuery(
     api.receipts.getReceiptsById,
-    receiptId ? { id: receiptId } : "skip"
+    receiptId ? { id: receiptId } : "skip",
   );
 
   const fileId = receipt?.fileId;
   const downloadUrl = useQuery(
     api.receipts.getReceiptDownloadUrl,
-    fileId ? { fileId } : "skip"
+    fileId ? { fileId } : "skip",
   );
+
+  const handleDownload = async () => {
+    if (!receipt || !receipt.fileId) return;
+
+    try {
+      setIsLoadingDownload(true)
+
+      const result = await getFileDownloadUrl(receipt.fileId)
+      if (!result.success) {
+        throw new Error(result.error)
+      }
+      const link = document.createElement("a")
+      if (result.downloadUrl) {
+        link.href = result.downloadUrl;
+        link.download = receipt.fileName || "receipt.pdf";
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+      } else {
+          throw new Error("No download URL found")
+        }
+    } catch (error) {
+      console.error("Error downloading file:", error)
+    } finally {
+      setIsLoadingDownload(false)
+    }
+  }
+
+    const handleDeleteReceipt = async () => {
+      if (!receiptId) return ;
+
+      if (
+        window.confirm(
+          "Are you sure you want to delete this receipt? This action cannot be undone."
+        )
+      ) {
+        try {
+          setIsDeleting(true)
+          const result = await deleteReceipt(receiptId)
+
+          if (!result.success) {
+            throw new Error(result.error)
+          }
+          router.push("/receipts")
+          
+        } catch (error) {
+          console.error("Error deleting receipt:", error)
+          alert("Failed to delete the receipt. Please try again.")
+          setIsDeleting(false)
+        }
+      }
+    }
 
   useEffect(() => {
     try {
@@ -286,18 +346,63 @@ function Receipt() {
                         </TableCell>
                         <TableCell>
                           {formatCurrency(
-                            item.totalPrice
+                            item.totalPrice,
+                            receipt.currency,
                           )}
                         </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
+                  <TableFooter>
+                    <TableRow>
+                      <TableCell colSpan={3} className="text-right">
+                        Total
+                      </TableCell>
+                      <TableCell className="font-medium">
+                        {formatCurrency(
+                          receipt.items.reduce(
+                            (sum, item) => sum + item.totalPrice,
+                            0,
+                          ),
+                          receipt.currency
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  </TableFooter>
                 </Table>
-
               </div>
-
             </div>
           )}
+      <div className="mt-8 border-t pt-6">
+        <h3 className="text-sm font-medium text-gray-500 mb-4">
+          Actions
+        </h3>
+        <div className="flex flex-wrap gap-3">
+          <button
+          className={`px-4 py-2 bg-white border border-gray-300 rounded text-sm
+          text-gray-700 ${
+            isLoadingDownload
+            ? "opacity-50 cursor-not-allowed"
+            : "hover:bg-gray-50"
+          }`}
+          onClick={handleDownload}
+          disabled={isLoadingDownload || !fileId}
+          >
+            {isLoadingDownload ? "Downloading..." : "Download PDF"}
+          </button>
+          <button className={`px-4 py-2 rounded text-sm ${
+            isDeleting
+            ? "bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed"
+            : "bg-red-50 border border-red-200 text-red-600 hover:bg-red-100"
+          }`}
+          onClick={handleDeleteReceipt}
+          disabled={isDeleting}
+          >
+            {isDeleting ? "Deleting..." : "Delete Receipt"}
+          </button>
+        </div>
+      </div>
+
 
 
         </div>
