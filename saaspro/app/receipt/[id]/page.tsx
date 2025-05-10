@@ -12,7 +12,7 @@ function Receipt() {
   const params = useParams<{ id: string }>();
   const [receiptId, setReceiptId] = useState<Id<"receipts"> | null>(null);
   const router = useRouter();
-  const isSummariesEnabled = useSchematicFlag("summery");
+  const isSummariesEnabled = useSchematicFlag("summary");
 
   const receipt = useQuery(
     api.receipts.getReceiptsById,
@@ -252,9 +252,14 @@ function Receipt() {
               </>
             )}
           </div>
+          )}
+          
+
+
         </div>
       </div>
     </div>
+    
   );
 }
 

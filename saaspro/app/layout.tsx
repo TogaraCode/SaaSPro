@@ -32,7 +32,10 @@ export default function RootLayout({
   // Ensure that fonts and class names are applied consistently
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+     <body
+  className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+  suppressHydrationWarning
+>
         <ClerkProvider dynamic>
           <ConvexClientProvider>
             <Header />
